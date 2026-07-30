@@ -54,7 +54,23 @@ export default function ChatWidget() {
         body: JSON.stringify({ session_id: sessionId.current, message: text }),
       })
       const data = await res.json()
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }])
+      const full = data.reply
+      const msgIndex = messages.length + 1
+      setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
+      let i = 0
+      const speed = 15
+      function type() {
+        if (i < full.length) {
+          setMessages((prev) => {
+            const next = [...prev]
+            next[msgIndex] = { ...next[msgIndex], content: full.slice(0, i + 1) }
+            return next
+          })
+          i++
+          setTimeout(type, speed)
+        }
+      }
+      type()
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -77,7 +93,7 @@ export default function ChatWidget() {
   return (
     <>
       {open && (
-        <div className={`fixed bottom-20 right-4 sm:right-6 bg-white rounded-2xl shadow-2xl border z-50 flex flex-col animate-fade-in transition-all duration-300 ${
+        <div className={`fixed bottom-20 right-4 sm:right-6 bg-white rounded-2xl shadow-2xl border z-50 flex flex-col transition-all duration-300 ${
             wide ? 'w-[90vw] sm:w-[800px] max-h-[85vh]' : 'w-96 sm:w-[450px] max-h-[650px]'
           }`}>
           <div className="flex items-center justify-between p-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl">
@@ -109,7 +125,7 @@ export default function ChatWidget() {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
+                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
@@ -123,7 +139,7 @@ export default function ChatWidget() {
               </div>
             ))}
             {loading && (
-              <div className="flex justify-start animate-fade-in">
+              <div className="flex justify-start">
                 <div className="bg-white shadow-sm border border-gray-100 rounded-2xl rounded-bl-md px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
                   <span className="h-2 w-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="h-2 w-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
