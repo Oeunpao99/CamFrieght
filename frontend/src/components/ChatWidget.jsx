@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, X, Send, Truck, Maximize2, Minimize2 } from 'lucide-react'
 
 const faqs = [
+  'What can you help me with?',
   'What services do you offer?',
   'How do I get a shipping quote?',
   'What is your contact info?',
