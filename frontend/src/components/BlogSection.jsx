@@ -16,7 +16,7 @@ const posts = [
     author: 'admin',
     date: '27 Dec, 2024',
     slug: 'guide-ship-oversize-loads',
-    img: 'https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80',
   },
   {
     title: 'Need from our Transport Tracking specialists',

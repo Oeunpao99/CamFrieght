@@ -42,6 +42,9 @@ export default function ServicesSection() {
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
+          <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 rounded-full px-3 py-1 mb-4">
+            WHAT WE OFFER
+          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Services</h2>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
             Comprehensive logistics solutions tailored to your business needs.
@@ -54,28 +57,28 @@ export default function ServicesSection() {
               <Link
                 key={s.name}
                 to="/services"
-                className="group relative block h-48 sm:h-56 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                className="group relative block h-48 sm:h-56 rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               >
                 <img
                   src={s.img}
                   alt={s.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
                 {s.badge && (
                   <span className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full">
                     {s.badge}
                   </span>
                 )}
-                <span className="absolute bottom-3 right-3 bg-blue-600 group-hover:bg-blue-500 text-white rounded-full p-2 shadow-lg transition">
+                <span className="absolute bottom-3 right-3 bg-blue-600 group-hover:bg-blue-500 text-white rounded-full p-2 shadow-lg transition group-hover:scale-110">
                   <ArrowUpRight className="h-4 w-4" />
                 </span>
               </Link>
             ))}
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 flex flex-col items-center justify-center gap-6 text-center">
-            <div className="bg-white rounded-2xl px-6 py-8 w-full flex flex-col items-center gap-2">
+          <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 flex flex-col items-center justify-center gap-6 text-center shadow-md ring-1 ring-black/5">
+            <div className="bg-white rounded-2xl px-6 py-8 w-full flex flex-col items-center gap-2 shadow-sm">
               <div className="bg-blue-600 p-2 rounded-lg">
                 <Truck className="h-6 w-6 text-white" />
               </div>

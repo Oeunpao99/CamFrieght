@@ -31,7 +31,7 @@ const services = [
     icon: Package,
     desc: 'Specialized handling for oversized, heavy, and complex cargo requiring custom logistics solutions.',
     detail: 'Our project cargo team has extensive experience managing complex logistics for industrial equipment, machinery, and construction materials with end-to-end project management.',
-    img: 'https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80',
     features: ['Oversized cargo specialists', 'Custom logistics planning', 'Heavy lift equipment', 'End-to-end management'],
   },
   {

@@ -36,7 +36,7 @@ export default function About() {
           <div className="relative">
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=800&q=80"
+                src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80"
                 alt=""
                 className="w-full h-80 object-cover"
               />

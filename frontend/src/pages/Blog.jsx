@@ -18,7 +18,7 @@ const posts = [
     date: '27 Dec, 2024',
     excerpt: 'Shipping oversized loads requires careful planning, specialized equipment, and expert knowledge. Here\'s your complete guide.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-    img: 'https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=600&q=80',
+    img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80',
   },
   {
     title: 'Need from our Transport Tracking specialists',
