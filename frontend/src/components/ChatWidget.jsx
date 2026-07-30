@@ -13,12 +13,43 @@ const faqs = [
   'What are your working hours?',
 ]
 
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function inlineFormat(line) {
+  return escapeHtml(line).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+}
+
+function renderBlock(lines) {
+  const html = []
+  let i = 0
+  while (i < lines.length) {
+    if (/^-\s+/.test(lines[i])) {
+      const items = []
+      while (i < lines.length && /^-\s+/.test(lines[i])) {
+        items.push(`<li>${inlineFormat(lines[i].replace(/^-\s+/, ''))}</li>`)
+        i++
+      }
+      html.push(`<ul class="list-disc pl-4 my-1 space-y-0.5">${items.join('')}</ul>`)
+      continue
+    }
+    if (/^\*\*(.+)\*\*$/.test(lines[i])) {
+      html.push(`<div class="font-semibold text-gray-900 mt-2 first:mt-0">${inlineFormat(lines[i])}</div>`)
+    } else {
+      html.push(`<p class="mb-1 last:mb-0">${inlineFormat(lines[i])}</p>`)
+    }
+    i++
+  }
+  return html.join('')
+}
+
 function formatMessage(text) {
   return text
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n{2,}/g, '\n')
-    .replace(/\n- /g, '<br/>&#8226; ')
-    .replace(/\n/g, '<br/>')
+    .trim()
+    .split(/\n{2,}/)
+    .map((block) => renderBlock(block.split('\n').map((l) => l.trim()).filter(Boolean)))
+    .join('<div class="h-2"></div>')
 }
 
 export default function ChatWidget() {
