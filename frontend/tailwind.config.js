@@ -27,6 +27,8 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
         'slide-up': 'slideUp 0.6s ease-out forwards',
+        'slide-left': 'slideLeft 0.6s ease-out forwards',
+        'slide-right': 'slideRight 0.6s ease-out forwards',
         'drive-in': 'driveIn 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
         'smoke': 'smoke 3.5s ease-out forwards',
         'pop-in': 'popIn 0.5s ease-out 8.4s forwards',
@@ -39,6 +41,14 @@ export default {
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(30px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideLeft: {
+          '0%': { opacity: '0', transform: 'translateX(40px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideRight: {
+          '0%': { opacity: '0', transform: 'translateX(-40px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         driveIn: {
           '0%': { transform: 'translateX(calc(-100vw - 200px))' },

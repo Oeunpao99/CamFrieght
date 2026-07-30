@@ -1,9 +1,14 @@
 import { Truck, Target, Award, Globe } from 'lucide-react'
+import useInView from '../hooks/useInView'
 
 export default function About() {
+  const [heroRef, heroInView] = useInView()
+  const [historyRef, historyInView] = useInView()
+  const [cardsRef, cardsInView] = useInView()
+  const [ctaRef, ctaInView] = useInView()
   return (
     <>
-      <div className="relative h-[40vh] overflow-hidden">
+      <div ref={heroRef} className="relative h-[40vh] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80"
           alt=""
@@ -11,14 +16,14 @@ export default function About() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-blue-800/80 flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Our Story</h1>
-            <p className="text-blue-200 text-lg max-w-xl">Two decades of moving Cambodia forward.</p>
+            <h1 className={`text-4xl md:text-6xl font-bold text-white mb-4 opacity-0 ${heroInView ? 'animate-slide-up' : ''}`}>Our Story</h1>
+            <p className={`text-blue-200 text-lg max-w-xl opacity-0 ${heroInView ? 'animate-slide-up' : ''}`} style={{ animationDelay: '150ms' }}>Two decades of moving Cambodia forward.</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+        <div ref={historyRef} className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24 opacity-0 ${historyInView ? 'animate-slide-up' : ''}`}>
           <div>
             <div className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">Since 2000</div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Our History</h2>
@@ -48,40 +53,23 @@ export default function About() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-          <div className="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition border border-gray-100">
-            <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-5">
-              <Truck className="h-7 w-7 text-blue-600" />
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+          {[
+            { icon: Truck, title: 'Our Mission', desc: 'To provide seamless, reliable logistics solutions that empower businesses to grow beyond borders with confidence.' },
+            { icon: Target, title: 'Our Vision', desc: 'To be Cambodia\'s most trusted logistics partner, known for innovation, integrity, and excellence in freight forwarding.' },
+            { icon: Award, title: 'Our Values', desc: 'Trust, reliability, proactive communication, and careful planning — the foundations of everything we do.' },
+          ].map((item, i) => (
+            <div key={item.title} className={`text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition border border-gray-100 opacity-0 ${cardsInView ? 'animate-slide-up' : ''}`} style={{ animationDelay: `${i * 150}ms` }}>
+              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-5">
+                <item.icon className="h-7 w-7 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
             </div>
-            <h3 className="text-lg font-semibold mb-3">Our Mission</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              To provide seamless, reliable logistics solutions that empower businesses to grow
-              beyond borders with confidence.
-            </p>
-          </div>
-          <div className="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition border border-gray-100">
-            <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-5">
-              <Target className="h-7 w-7 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Our Vision</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              To be Cambodia&apos;s most trusted logistics partner, known for innovation, integrity,
-              and excellence in freight forwarding.
-            </p>
-          </div>
-          <div className="text-center p-8 bg-gray-50 rounded-2xl hover:shadow-lg transition border border-gray-100">
-            <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-5">
-              <Award className="h-7 w-7 text-blue-600" />
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Our Values</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Trust, reliability, proactive communication, and careful planning — the foundations
-              of everything we do.
-            </p>
-          </div>
+          ))}
         </div>
 
-        <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
+        <div ref={ctaRef} className={`relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 md:p-16 text-center overflow-hidden opacity-0 ${ctaInView ? 'animate-slide-up' : ''}`}>
           <div className="absolute inset-0 opacity-10">
             <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover" />
           </div>

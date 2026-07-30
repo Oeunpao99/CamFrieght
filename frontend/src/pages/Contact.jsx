@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react'
+import useInView from '../hooks/useInView'
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', service_interest: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [heroRef, heroInView] = useInView()
+  const [formRef, formInView] = useInView()
+  const [infoRef, infoInView] = useInView()
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -29,10 +33,10 @@ export default function Contact() {
 
   return (
     <>
-      <div className="relative bg-gradient-to-br from-blue-900 to-blue-950 py-20">
+      <div ref={heroRef} className="relative bg-gradient-to-br from-blue-900 to-blue-950 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Contact Us</h1>
-          <p className="text-blue-200 max-w-2xl mx-auto">
+          <h1 className={`text-4xl md:text-5xl font-bold text-white mb-4 opacity-0 ${heroInView ? 'animate-slide-up' : ''}`}>Contact Us</h1>
+          <p className={`text-blue-200 max-w-2xl mx-auto opacity-0 ${heroInView ? 'animate-slide-up' : ''}`} style={{ animationDelay: '150ms' }}>
             Get in touch with our team. We&apos;re here to help with all your logistics needs.
           </p>
         </div>
@@ -40,7 +44,7 @@ export default function Contact() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          <div className="lg:col-span-3">
+          <div ref={formRef} className={`lg:col-span-3 opacity-0 ${formInView ? 'animate-slide-up' : ''}`}>
             {submitted ? (
               <div className="bg-green-50 border border-green-200 rounded-2xl p-12 text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -104,7 +108,7 @@ export default function Contact() {
             )}
           </div>
 
-          <div className="lg:col-span-2 space-y-6">
+          <div ref={infoRef} className={`lg:col-span-2 space-y-6 opacity-0 ${infoInView ? 'animate-slide-left' : ''}`}>
             <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">Our Office</h3>
               <div className="space-y-5 text-gray-600">

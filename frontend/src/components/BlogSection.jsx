@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Calendar, User } from 'lucide-react'
+import useInView from '../hooks/useInView'
 
 const posts = [
   {
@@ -29,10 +30,12 @@ const posts = [
 ]
 
 export default function BlogSection() {
+  const [headerRef, headerInView] = useInView()
+  const [gridRef, gridInView] = useInView()
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
+        <div ref={headerRef} className={`text-center mb-14 opacity-0 ${headerInView ? 'animate-slide-up' : ''}`}>
           <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 rounded-full px-3 py-1 mb-4">
             INSIGHTS &amp; UPDATES
           </span>
@@ -40,11 +43,12 @@ export default function BlogSection() {
           <p className="mt-4 text-gray-600">Latest news and insights from Cam Freight Services.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((p) => (
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {posts.map((p, i) => (
             <article
               key={p.slug}
-              className="group bg-white rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+              className={`group bg-white rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 opacity-0 ${gridInView ? 'animate-slide-up' : ''}`}
+              style={{ animationDelay: `${i * 150}ms` }}
             >
               <div className="relative h-52 overflow-hidden">
                 <img

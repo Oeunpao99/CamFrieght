@@ -1,4 +1,5 @@
 import { Award, MessageCircle, ClipboardList } from 'lucide-react'
+import useInView from '../hooks/useInView'
 
 const stats = [
   { icon: Award, value: '245K', label: 'Successful Project Completion' },
@@ -7,8 +8,9 @@ const stats = [
 ]
 
 export default function StatsSection() {
+  const [ref, inView] = useInView()
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section ref={ref} className="relative py-20 overflow-hidden">
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1920&q=80"
@@ -22,7 +24,7 @@ export default function StatsSection() {
           {stats.map(({ icon: Icon, value, label }, i) => (
             <div
               key={label}
-              className="animate-fade-in bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-10 hover:bg-white/10 transition-colors"
+              className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-10 hover:bg-white/10 transition-colors opacity-0 ${inView ? 'animate-slide-up' : ''}`}
               style={{ animationDelay: `${i * 150}ms` }}
             >
               <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-blue-400/10 border border-blue-300/20 mb-5">

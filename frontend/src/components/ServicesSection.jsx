@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Truck, Plane, Ship, Package, ClipboardCheck, Globe, ArrowUpRight, MapPin, Phone } from 'lucide-react'
+import useInView from '../hooks/useInView'
 
 const services = [
   {
@@ -38,10 +39,12 @@ const services = [
 ]
 
 export default function ServicesSection() {
+  const [headerRef, headerInView] = useInView()
+  const [gridRef, gridInView] = useInView()
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
+        <div ref={headerRef} className={`text-center mb-14 opacity-0 ${headerInView ? 'animate-slide-up' : ''}`}>
           <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 rounded-full px-3 py-1 mb-4">
             WHAT WE OFFER
           </span>
@@ -51,13 +54,14 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((s) => (
+            {services.map((s, i) => (
               <Link
                 key={s.name}
                 to="/services"
-                className="group relative block h-48 sm:h-56 rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                className={`group relative block h-48 sm:h-56 rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 opacity-0 ${gridInView ? 'animate-slide-up' : ''}`}
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <img
                   src={s.img}
@@ -77,7 +81,7 @@ export default function ServicesSection() {
             ))}
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 flex flex-col items-center justify-center gap-6 text-center shadow-md ring-1 ring-black/5">
+          <div className={`bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-8 flex flex-col items-center justify-center gap-6 text-center shadow-md ring-1 ring-black/5 opacity-0 ${gridInView ? 'animate-slide-left' : ''}`} style={{ animationDelay: '600ms' }}>
             <div className="bg-white rounded-2xl px-6 py-8 w-full flex flex-col items-center gap-2 shadow-sm">
               <div className="bg-blue-600 p-2 rounded-lg">
                 <Truck className="h-6 w-6 text-white" />

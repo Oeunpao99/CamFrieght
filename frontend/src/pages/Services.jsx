@@ -1,5 +1,6 @@
 import { Truck, Plane, Ship, Package, ClipboardCheck, Globe, ArrowRight, CheckCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import useInView from '../hooks/useInView'
 
 const services = [
   {
@@ -53,59 +54,65 @@ const services = [
 ]
 
 export default function Services() {
+  const [heroRef, heroInView] = useInView()
+  const [ctaRef, ctaInView] = useInView()
   return (
     <>
-      <div className="relative bg-gradient-to-br from-blue-900 to-blue-950 py-20">
+      <div ref={heroRef} className="relative bg-gradient-to-br from-blue-900 to-blue-950 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Services</h1>
-          <p className="text-blue-200 max-w-2xl mx-auto">
+          <h1 className={`text-4xl md:text-5xl font-bold text-white mb-4 opacity-0 ${heroInView ? 'animate-slide-up' : ''}`}>Our Services</h1>
+          <p className={`text-blue-200 max-w-2xl mx-auto opacity-0 ${heroInView ? 'animate-slide-up' : ''}`} style={{ animationDelay: '150ms' }}>
             Comprehensive logistics solutions tailored to your business needs.
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24">
-        {services.map((s, i) => (
-          <div
-            key={s.name}
-            className={`flex flex-col ${
-              i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-            } gap-10 items-center`}
-          >
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                  <s.icon className="h-6 w-6 text-blue-600" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900">{s.name}</h2>
-              </div>
-              <p className="text-gray-700 text-lg mb-3">{s.desc}</p>
-              <p className="text-gray-500 leading-relaxed mb-6">{s.detail}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {s.features.map((f) => (
-                  <div key={f} className="flex items-center gap-2 text-sm text-gray-600">
-                    <CheckCircle className="h-4 w-4 text-blue-600 shrink-0" />
-                    {f}
+        {services.map((s, i) => {
+          const [ref, inView] = useInView()
+          return (
+            <div
+              key={s.name}
+              ref={ref}
+              className={`flex flex-col ${
+                i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+              } gap-10 items-center opacity-0 ${inView ? 'animate-slide-up' : ''}`}
+            >
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <s.icon className="h-6 w-6 text-blue-600" />
                   </div>
-                ))}
+                  <h2 className="text-2xl font-bold text-gray-900">{s.name}</h2>
+                </div>
+                <p className="text-gray-700 text-lg mb-3">{s.desc}</p>
+                <p className="text-gray-500 leading-relaxed mb-6">{s.detail}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {s.features.map((f) => (
+                    <div key={f} className="flex items-center gap-2 text-sm text-gray-600">
+                      <CheckCircle className="h-4 w-4 text-blue-600 shrink-0" />
+                      {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-1 w-full">
+                <div className="relative rounded-2xl overflow-hidden shadow-lg group">
+                  <img
+                    src={s.img}
+                    alt={s.name}
+                    className="w-full h-72 object-cover group-hover:scale-105 transition duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                </div>
               </div>
             </div>
-            <div className="flex-1 w-full">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg group">
-                <img
-                  src={s.img}
-                  alt={s.name}
-                  className="w-full h-72 object-cover group-hover:scale-105 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-              </div>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-center overflow-hidden">
+      <div ref={ctaRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className={`relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-center overflow-hidden opacity-0 ${ctaInView ? 'animate-slide-up' : ''}`}>
           <div className="absolute inset-0 opacity-10">
             <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80" alt="" className="w-full h-full object-cover" />
           </div>
