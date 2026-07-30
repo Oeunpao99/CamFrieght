@@ -7,7 +7,7 @@ const services = [
     icon: Truck,
     desc: 'Comprehensive road transportation solutions for cargo across Cambodia and neighboring countries.',
     detail: 'Our land freight service covers all major routes in Cambodia, Vietnam, Thailand, and Laos. We maintain a modern fleet with real-time tracking and provide door-to-door delivery with full insurance coverage.',
-    img: 'https://placehold.co/800x600/1e40af/ffffff?text=Land+Freight',
+    img: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80',
     features: ['Full truckload & LTL', 'Real-time GPS tracking', 'Door-to-door delivery', 'Insurance coverage'],
   },
   {
@@ -15,7 +15,7 @@ const services = [
     icon: Plane,
     desc: 'Fast and reliable air cargo solutions for time-sensitive shipments worldwide.',
     detail: 'We partner with major airlines to offer competitive rates and expedited handling. From express deliveries to consolidated air freight, we ensure your cargo reaches its destination quickly and safely.',
-    img: 'https://placehold.co/800x600/2563eb/ffffff?text=Air+Freight',
+    img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80',
     features: ['Express & economy options', 'Airline partnerships', 'Consolidation services', 'Temperature-controlled'],
   },
   {
@@ -23,7 +23,7 @@ const services = [
     icon: Ship,
     desc: 'Sea freight services for bulk and containerized cargo with flexible sailing schedules.',
     detail: 'Whether you need full container load (FCL) or less than container load (LCL), our ocean freight service provides cost-effective solutions for international shipping across all major routes.',
-    img: 'https://placehold.co/800x600/1d4ed8/ffffff?text=Ocean+Freight',
+    img: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80',
     features: ['FCL & LCL options', 'Port-to-port & door-to-door', 'Bulk cargo handling', 'Flexible schedules'],
   },
   {
@@ -31,7 +31,7 @@ const services = [
     icon: Package,
     desc: 'Specialized handling for oversized, heavy, and complex cargo requiring custom logistics solutions.',
     detail: 'Our project cargo team has extensive experience managing complex logistics for industrial equipment, machinery, and construction materials with end-to-end project management.',
-    img: 'https://placehold.co/800x600/1e3a8a/ffffff?text=Project+Cargo',
+    img: 'https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=800&q=80',
     features: ['Oversized cargo specialists', 'Custom logistics planning', 'Heavy lift equipment', 'End-to-end management'],
   },
   {
@@ -39,7 +39,7 @@ const services = [
     icon: ClipboardCheck,
     desc: 'Professional customs clearance and documentation services for smooth border crossings.',
     detail: 'Our licensed customs brokers handle all documentation, tariffs, and regulatory compliance, saving you time and ensuring your shipments clear customs without delays.',
-    img: 'https://placehold.co/800x600/3730a3/ffffff?text=Customs+Brokerage',
+    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80',
     features: ['Licensed brokers', 'Documentation handling', 'Tariff classification', 'Compliance management'],
   },
   {
@@ -47,7 +47,7 @@ const services = [
     icon: Globe,
     desc: 'Seamless cross-border transportation connecting Cambodia with neighboring countries.',
     detail: 'We specialize in cross-border logistics, managing customs requirements and regulations for seamless transportation between Cambodia and its regional trading partners.',
-    img: 'https://placehold.co/800x600/312e81/ffffff?text=Cross+Border',
+    img: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
     features: ['Regional network', 'Customs pre-clearance', 'Multi-modal solutions', 'Real-time tracking'],
   },
 ]
@@ -107,7 +107,7 @@ export default function Services() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 text-center overflow-hidden">
           <div className="absolute inset-0 opacity-10">
-            <img src="https://placehold.co/1920x600/1e3a8a/ffffff?text=Contact+Us" alt="" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80" alt="" className="w-full h-full object-cover" />
           </div>
           <div className="relative">
             <h2 className="text-3xl font-bold text-white mb-4">Need Help Choosing?</h2>

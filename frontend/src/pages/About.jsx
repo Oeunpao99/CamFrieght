@@ -5,7 +5,7 @@ export default function About() {
     <>
       <div className="relative h-[40vh] overflow-hidden">
         <img
-          src="https://placehold.co/1920x600/1e3a8a/ffffff?text=About+Us"
+          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80"
           alt=""
           className="w-full h-full object-cover"
         />
@@ -36,7 +36,7 @@ export default function About() {
           <div className="relative">
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="https://placehold.co/800x600/2563eb/ffffff?text=Our+History"
+                src="https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=800&q=80"
                 alt=""
                 className="w-full h-80 object-cover"
               />
@@ -83,7 +83,7 @@ export default function About() {
 
         <div className="relative bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
           <div className="absolute inset-0 opacity-10">
-            <img src="https://placehold.co/1920x600/1e3a8a/ffffff?text=Global+Network" alt="" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover" />
           </div>
           <div className="relative">
             <Globe className="h-12 w-12 mx-auto mb-6 text-blue-200" />

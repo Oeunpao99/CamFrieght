@@ -9,7 +9,7 @@ const posts = [
     date: '2 Jun, 2025',
     excerpt: 'At Cam Freight Services, we believe logistics is more than moving cargo — it\'s about moving businesses forward. Discover what makes us different.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    img: 'https://placehold.co/600x400/1e40af/ffffff?text=Cam+Freight',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
   },
   {
     title: 'The Guide On How to Ship Oversize Loads',
@@ -18,7 +18,7 @@ const posts = [
     date: '27 Dec, 2024',
     excerpt: 'Shipping oversized loads requires careful planning, specialized equipment, and expert knowledge. Here\'s your complete guide.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-    img: 'https://placehold.co/600x400/2563eb/ffffff?text=Oversize+Loads',
+    img: 'https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=600&q=80',
   },
   {
     title: 'Need from our Transport Tracking specialists',
@@ -27,7 +27,7 @@ const posts = [
     date: '27 Dec, 2024',
     excerpt: 'Real-time tracking gives you total visibility into your shipment\'s journey. Our specialists ensure you\'re always in the know.',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    img: 'https://placehold.co/600x400/1e3a8a/ffffff?text=Tracking',
+    img: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=600&q=80',
   },
 ]
 

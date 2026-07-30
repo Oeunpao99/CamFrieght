@@ -5,34 +5,34 @@ const services = [
   {
     name: 'Land Freight',
     icon: Truck,
-    img: 'https://placehold.co/600x400/1e40af/ffffff?text=Land+Freight',
+    img: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80',
   },
   {
     name: 'Air Freight',
     icon: Plane,
-    img: 'https://placehold.co/600x400/2563eb/ffffff?text=Air+Freight',
+    img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80',
   },
   {
     name: 'Ocean Freight',
     icon: Ship,
-    img: 'https://placehold.co/600x400/1d4ed8/ffffff?text=Ocean+Freight',
+    img: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=600&q=80',
   },
   {
     name: 'Project Cargo Handling',
     icon: Package,
-    img: 'https://placehold.co/600x400/1e3a8a/ffffff?text=Project+Cargo',
+    img: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600&q=80',
     badge: 'Project Cargo Handling',
   },
   {
     name: 'Customs Brokerage',
     icon: ClipboardCheck,
-    img: 'https://placehold.co/600x400/3730a3/ffffff?text=Customs',
+    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80',
     badge: 'Custom Broker',
   },
   {
     name: 'Cross-Border Freight',
     icon: Globe,
-    img: 'https://placehold.co/600x400/312e81/ffffff?text=Cross+Border',
+    img: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80',
     badge: 'Cross - Border Freight',
   },
 ]

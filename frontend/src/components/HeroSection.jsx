@@ -6,7 +6,7 @@ export default function HeroSection() {
     <section className="relative min-h-[85vh] flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://placehold.co/1920x800/1e3a8a/ffffff?text=Cam+Freight+Services"
+          src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80"
           alt=""
           className="w-full h-full object-cover"
         />

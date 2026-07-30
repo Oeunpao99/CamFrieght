@@ -3,7 +3,7 @@ export default function StatsSection() {
     <section className="relative py-20 overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://placehold.co/1920x600/1e3a8a/ffffff?text=Our+Achievements"
+          src="https://images.unsplash.com/photo-1578575436950-abe71542c77e?w=1920&q=80"
           alt=""
           className="w-full h-full object-cover"
         />
