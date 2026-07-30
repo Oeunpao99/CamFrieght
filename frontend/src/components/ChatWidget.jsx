@@ -7,6 +7,9 @@ const faqs = [
   'What is your contact info?',
   'Do you handle customs clearance?',
   'What cargo types do you ship?',
+  'Do you handle cross-border freight?',
+  'Can you manage oversized or project cargo?',
+  'What are your working hours?',
 ]
 
 function formatMessage(text) {
@@ -153,7 +156,7 @@ export default function ChatWidget() {
           {showFaq && (
             <div className="px-4 pb-2 pt-1 bg-gray-50/50 border-t">
               <p className="text-xs text-gray-400 mb-2">Quick questions:</p>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto pr-1">
                 {faqs.map((q) => (
                   <button
                     key={q}

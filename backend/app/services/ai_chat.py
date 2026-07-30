@@ -17,6 +17,7 @@ Company info:
 - Address: No 85c, 313 Street, Phnom Penh, 12152, Cambodia
 - Phone: +855 88 983 9999
 - Email: info@camfreight.com
+- Working Hours: Mon - Fri, 8:00 AM - 5:00 PM
 
 Services offered:
 - Land Freight (Road Transport): Delivery across Cambodia and to neighboring countries
@@ -32,30 +33,33 @@ Response rules:
 3. When listing multiple items (services, requirements, steps, etc.), put each item on its own line starting with "- ". Never run list items together inline in one sentence.
 4. Keep answers concise, friendly, and always mention contact info when appropriate.
 5. Use bold (**text**) for emphasis on important terms.
-6. If additional database context is provided below, use it to supplement your answers. If not, rely on the services listed above.
+6. The database context below is the source of truth — it can include full service descriptions and full blog post content, not just summaries. Read all of it and use it to answer specific, detailed questions (e.g. what a particular blog post covers, or the full details of a service), not just the high-level list above. Only say you don't have a detail if it's genuinely absent from both the list above and the database context.
 """
 
 
 def build_context(db) -> str:
     parts = []
 
-    services = db.execute(select(Service).where(Service.is_active == True)).scalars().all()
+    services = db.execute(
+        select(Service).where(Service.is_active == True).order_by(Service.order)
+    ).scalars().all()
     if services:
         lines = []
         for s in services:
-            name = s.name
-            desc = s.short_description or s.description or ""
-            lines.append(f"- **{name}:** {desc}")
-        parts.append("Services from database:\n" + "\n".join(lines))
+            detail_bits = [d for d in (s.short_description, s.description) if d]
+            detail = " — ".join(detail_bits)
+            lines.append(f"- **{s.name}**: {detail}")
+        parts.append("Services (full details) from database:\n" + "\n".join(lines))
 
     posts = db.execute(
-        select(BlogPost).where(BlogPost.is_published == True).order_by(BlogPost.created_at.desc()).limit(5)
+        select(BlogPost).where(BlogPost.is_published == True).order_by(BlogPost.created_at.desc())
     ).scalars().all()
     if posts:
         lines = []
         for p in posts:
-            lines.append(f"- **{p.title}** ({p.category}): {p.excerpt or ''}")
-        parts.append("Recent blog posts:\n" + "\n".join(lines))
+            body = p.content or p.excerpt or ""
+            lines.append(f"- **{p.title}** ({p.category}, by {p.author}):\n{body}")
+        parts.append("Blog posts (full content) from database:\n" + "\n\n".join(lines))
 
     return "\n\n".join(parts) if parts else ""
 
