@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['General Sans', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
         primary: {
           50: '#eff6ff',
