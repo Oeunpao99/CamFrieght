@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, Truck } from 'lucide-react'
+import { MessageCircle, X, Send, Truck, Maximize2, Minimize2 } from 'lucide-react'
 
 const faqs = [
   'What services do you offer?',
@@ -26,6 +26,7 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false)
   const [showFaq, setShowFaq] = useState(true)
   const [animated, setAnimated] = useState(true)
+  const [wide, setWide] = useState(false)
   const bottomRef = useRef(null)
 
   function handleToggle() {
@@ -76,7 +77,9 @@ export default function ChatWidget() {
   return (
     <>
       {open && (
-        <div className="fixed bottom-20 right-4 sm:right-6 w-96 sm:w-[450px] bg-white rounded-2xl shadow-2xl border z-50 flex flex-col max-h-[650px] animate-fade-in">
+        <div className={`fixed bottom-20 right-4 sm:right-6 bg-white rounded-2xl shadow-2xl border z-50 flex flex-col animate-fade-in transition-all duration-300 ${
+            wide ? 'w-[90vw] sm:w-[800px] max-h-[85vh]' : 'w-96 sm:w-[450px] max-h-[650px]'
+          }`}>
           <div className="flex items-center justify-between p-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 rounded-xl p-2">
@@ -90,12 +93,19 @@ export default function ChatWidget() {
                 </div>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition">
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button onClick={() => setWide(!wide)} className="hover:bg-white/10 rounded-lg p-1.5 transition" title={wide ? 'Shrink' : 'Expand'}>
+                {wide ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+              </button>
+              <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-5 space-y-4 min-h-[400px] max-h-[460px] bg-gray-50/50">
+          <div className={`flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50/50 ${
+            wide ? 'min-h-[60vh] max-h-[65vh]' : 'min-h-[400px] max-h-[460px]'
+          }`}>
             {messages.map((m, i) => (
               <div
                 key={i}

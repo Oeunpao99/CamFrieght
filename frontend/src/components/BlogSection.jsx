@@ -33,6 +33,9 @@ export default function BlogSection() {
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
+          <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 rounded-full px-3 py-1 mb-4">
+            INSIGHTS &amp; UPDATES
+          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Blog</h2>
           <p className="mt-4 text-gray-600">Latest news and insights from Cam Freight Services.</p>
         </div>
@@ -41,7 +44,7 @@ export default function BlogSection() {
           {posts.map((p) => (
             <article
               key={p.slug}
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1"
+              className="group bg-white rounded-2xl overflow-hidden shadow-md ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="relative h-52 overflow-hidden">
                 <img
@@ -66,9 +69,9 @@ export default function BlogSection() {
                 <h3 className="font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition">{p.title}</h3>
                 <Link
                   to="/blog"
-                  className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500"
+                  className="group/link inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-500"
                 >
-                  Read More &rarr;
+                  Read More <span className="group-hover/link:translate-x-1 transition">&rarr;</span>
                 </Link>
               </div>
             </article>

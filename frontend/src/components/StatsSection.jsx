@@ -1,3 +1,11 @@
+import { Award, MessageCircle, ClipboardList } from 'lucide-react'
+
+const stats = [
+  { icon: Award, value: '245K', label: 'Successful Project Completion' },
+  { icon: MessageCircle, value: '30K', label: 'Proactive Communications' },
+  { icon: ClipboardList, value: '89M', label: 'Careful Planning & Resource Management' },
+]
+
 export default function StatsSection() {
   return (
     <section className="relative py-20 overflow-hidden">
@@ -7,25 +15,24 @@ export default function StatsSection() {
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-blue-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/95 via-blue-900/90 to-blue-950/95" />
       </div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-          <div className="animate-fade-in">
-            <div className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-200 to-cyan-200 text-transparent bg-clip-text">245K</div>
-            <div className="h-0.5 w-12 bg-blue-400/50 mx-auto mb-3" />
-            <div className="text-blue-100/80">Successful Project Completion</div>
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: '150ms' }}>
-            <div className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-200 to-cyan-200 text-transparent bg-clip-text">30K</div>
-            <div className="h-0.5 w-12 bg-blue-400/50 mx-auto mb-3" />
-            <div className="text-blue-100/80">Proactive Communications</div>
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: '300ms' }}>
-            <div className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-200 to-cyan-200 text-transparent bg-clip-text">89M</div>
-            <div className="h-0.5 w-12 bg-blue-400/50 mx-auto mb-3" />
-            <div className="text-blue-100/80">Careful Planning &amp; Resource Management</div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-center">
+          {stats.map(({ icon: Icon, value, label }, i) => (
+            <div
+              key={label}
+              className="animate-fade-in bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl px-6 py-10 hover:bg-white/10 transition-colors"
+              style={{ animationDelay: `${i * 150}ms` }}
+            >
+              <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-blue-400/10 border border-blue-300/20 mb-5">
+                <Icon className="h-5 w-5 text-blue-200" />
+              </div>
+              <div className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-200 to-cyan-200 text-transparent bg-clip-text">{value}</div>
+              <div className="h-0.5 w-12 bg-blue-400/50 mx-auto mb-3" />
+              <div className="text-blue-100/80">{label}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

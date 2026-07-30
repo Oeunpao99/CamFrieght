@@ -1,0 +1,159 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - link "Cam Freight" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e15]:
+        - link "Home" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - link "About" [ref=e17] [cursor=pointer]:
+          - /url: /about
+        - link "Services" [ref=e18] [cursor=pointer]:
+          - /url: /services
+        - link "Blog" [ref=e19] [cursor=pointer]:
+          - /url: /blog
+        - link "Contact" [ref=e20] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=e21]:
+    - generic [ref=e28]:
+      - generic [ref=e29]: Trusted Logistics Partner Since 2000
+      - heading "Moving Your Business Across Borders" [level=1] [ref=e32]:
+        - text: Moving Your Business
+        - generic [ref=e33]: Across Borders
+      - paragraph [ref=e34]: At Cam Freight Services, we believe logistics is more than moving cargo — it's about moving businesses forward. Backed by local expertise and global reach.
+      - generic [ref=e35]:
+        - link "Our Services" [ref=e36] [cursor=pointer]:
+          - /url: /services
+        - link "Get a Quote" [ref=e39] [cursor=pointer]:
+          - /url: /contact
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - generic [ref=e43]: WHAT WE OFFER
+        - heading "Our Services" [level=2] [ref=e44]
+        - paragraph [ref=e45]: Comprehensive logistics solutions tailored to your business needs.
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - link [ref=e48] [cursor=pointer]:
+            - /url: /services
+            - img "Land Freight" [ref=e49]
+          - link [ref=e55] [cursor=pointer]:
+            - /url: /services
+            - img "Air Freight" [ref=e56]
+          - link [ref=e62] [cursor=pointer]:
+            - /url: /services
+            - img "Ocean Freight" [ref=e63]
+          - link "Project Cargo Handling Project Cargo Handling" [ref=e69] [cursor=pointer]:
+            - /url: /services
+            - img "Project Cargo Handling" [ref=e70]
+            - generic [ref=e72]: Project Cargo Handling
+          - link "Customs Brokerage Custom Broker" [ref=e77] [cursor=pointer]:
+            - /url: /services
+            - img "Customs Brokerage" [ref=e78]
+            - generic [ref=e80]: Custom Broker
+          - link "Cross-Border Freight Cross - Border Freight" [ref=e85] [cursor=pointer]:
+            - /url: /services
+            - img "Cross-Border Freight" [ref=e86]
+            - generic [ref=e88]: Cross - Border Freight
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e101]: Cam Freight
+            - generic [ref=e102]: SERVICES
+          - generic [ref=e103]:
+            - generic [ref=e104]: No 85c, 313 Street, Phnom Penh, 12152, Cambodia
+            - generic [ref=e109]: +855 88 983 9999
+    - generic [ref=e117]:
+      - generic [ref=e118]:
+        - generic [ref=e123]: 245K
+        - generic [ref=e125]: Successful Project Completion
+      - generic [ref=e126]:
+        - generic [ref=e130]: 30K
+        - generic [ref=e132]: Proactive Communications
+      - generic [ref=e133]:
+        - generic [ref=e138]: 89M
+        - generic [ref=e140]: Careful Planning & Resource Management
+    - generic [ref=e142]:
+      - generic [ref=e143]:
+        - generic [ref=e144]: INSIGHTS & UPDATES
+        - heading "Our Blog" [level=2] [ref=e145]
+        - paragraph [ref=e146]: Latest news and insights from Cam Freight Services.
+      - generic [ref=e147]:
+        - article [ref=e148]:
+          - generic [ref=e149]:
+            - img "Why Cam Freight Services?" [ref=e150]
+            - generic [ref=e152]: Uncategorized
+          - generic [ref=e153]:
+            - generic [ref=e154]:
+              - generic [ref=e155]: admin
+              - generic [ref=e159]: 2 Jun, 2025
+            - heading "Why Cam Freight Services?" [level=3] [ref=e162]
+            - link "Read More →" [ref=e163] [cursor=pointer]:
+              - /url: /blog
+              - text: Read More
+              - generic [ref=e164]: →
+        - article [ref=e165]:
+          - generic [ref=e166]:
+            - img "The Guide On How to Ship Oversize Loads" [ref=e167]
+            - generic [ref=e169]: Freight
+          - generic [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]: admin
+              - generic [ref=e176]: 27 Dec, 2024
+            - heading "The Guide On How to Ship Oversize Loads" [level=3] [ref=e179]
+            - link "Read More →" [ref=e180] [cursor=pointer]:
+              - /url: /blog
+              - text: Read More
+              - generic [ref=e181]: →
+        - article [ref=e182]:
+          - generic [ref=e183]:
+            - img "Need from our Transport Tracking specialists" [ref=e184]
+            - generic [ref=e186]: Project
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - generic [ref=e189]: admin
+              - generic [ref=e193]: 27 Dec, 2024
+            - heading "Need from our Transport Tracking specialists" [level=3] [ref=e196]
+            - link "Read More →" [ref=e197] [cursor=pointer]:
+              - /url: /blog
+              - text: Read More
+              - generic [ref=e198]: →
+  - contentinfo [ref=e199]:
+    - generic [ref=e200]:
+      - generic [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: Cam Freight
+          - paragraph [ref=e210]: Your trusted logistics partner in Cambodia. We deliver reliability, speed, and results across every mile.
+        - generic [ref=e211]:
+          - heading "Quick Links" [level=3] [ref=e212]
+          - generic [ref=e213]:
+            - link "About Us" [ref=e214] [cursor=pointer]:
+              - /url: /about
+            - link "Services" [ref=e215] [cursor=pointer]:
+              - /url: /services
+            - link "Blog" [ref=e216] [cursor=pointer]:
+              - /url: /blog
+            - link "Contact" [ref=e217] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=e218]:
+          - heading "Services" [level=3] [ref=e219]
+          - generic [ref=e220]:
+            - link "Land Freight" [ref=e221] [cursor=pointer]:
+              - /url: /services
+            - link "Air Freight" [ref=e222] [cursor=pointer]:
+              - /url: /services
+            - link "Ocean Freight" [ref=e223] [cursor=pointer]:
+              - /url: /services
+            - link "Customs Brokerage" [ref=e224] [cursor=pointer]:
+              - /url: /services
+        - generic [ref=e225]:
+          - heading "Contact" [level=3] [ref=e226]
+          - generic [ref=e227]:
+            - generic [ref=e228]: No 85c, 313 Street, Phnom Penh, 12152, Cambodia
+            - generic [ref=e233]: +855 88 983 9999
+            - generic [ref=e237]: info@camfreight.com
+      - generic [ref=e242]:
+        - paragraph [ref=e243]: © 2026 Cam Freight Services. All rights reserved.
+        - generic [ref=e244]:
+          - generic [ref=e245]: No 85c, 313 Street, Phnom Penh
+          - generic [ref=e246]: "|"
+          - generic [ref=e247]: +855 88 983 9999
+  - button [ref=e248] [cursor=pointer]
