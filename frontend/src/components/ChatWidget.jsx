@@ -201,6 +201,12 @@ export default function ChatWidget() {
               <div className="w-2.5 h-2.5 bg-gray-300/50 rounded-full blur-sm animate-smoke" style={{ position: 'absolute', bottom: '0', left: '-20px', animationDelay: '0.6s' }} />
               <div className="w-3.5 h-3.5 bg-gray-400/30 rounded-full blur-sm animate-smoke" style={{ position: 'absolute', bottom: '0', left: '-30px', animationDelay: '0.9s' }} />
             </div>
+            <div className="absolute animate-pop-in" style={{ right: '4.5rem', bottom: '4.5rem', animationDelay: '5.5s' }}>
+              <div className="relative bg-white rounded-2xl shadow-lg border border-gray-100 px-4 py-3 text-sm text-gray-700 max-w-[220px] pointer-events-auto whitespace-nowrap">
+                <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45" />
+                <p className="leading-snug">Hello! Welcome to our website. Want to ask something? &#128666;</p>
+              </div>
+            </div>
             <button
               onClick={handleToggle}
               className="absolute bottom-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all pointer-events-auto"
@@ -212,12 +218,6 @@ export default function ChatWidget() {
         </div>
       ) : !open ? (
         <>
-          <div className="fixed bottom-20 right-4 sm:right-6 z-50 animate-pop-in">
-            <div className="relative bg-white rounded-2xl shadow-lg border border-gray-100 px-4 py-3 text-sm text-gray-700 max-w-[220px]">
-              <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white border-r border-b border-gray-100 rotate-45" />
-              <p className="leading-snug">Hello! Welcome to our website. Want to ask something? &#128666;</p>
-            </div>
-          </div>
           <button
             onClick={handleToggle}
             className="fixed bottom-4 right-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all z-50"
