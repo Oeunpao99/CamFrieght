@@ -4,29 +4,29 @@ import { Link } from 'react-router-dom'
 const posts = [
   {
     title: 'Why Cam Freight Services?',
+    slug: 'why-cam-freight-services',
     category: 'Uncategorized',
     author: 'admin',
     date: '2 Jun, 2025',
     excerpt: 'At Cam Freight Services, we believe logistics is more than moving cargo — it\'s about moving businesses forward. Discover what makes us different.',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
   },
   {
     title: 'The Guide On How to Ship Oversize Loads',
+    slug: 'guide-ship-oversize-loads',
     category: 'Freight',
     author: 'admin',
     date: '27 Dec, 2024',
     excerpt: 'Shipping oversized loads requires careful planning, specialized equipment, and expert knowledge. Here\'s your complete guide.',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
     img: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80',
   },
   {
     title: 'Need from our Transport Tracking specialists',
+    slug: 'transport-tracking-specialists',
     category: 'Project',
     author: 'admin',
     date: '27 Dec, 2024',
     excerpt: 'Real-time tracking gives you total visibility into your shipment\'s journey. Our specialists ensure you\'re always in the know.',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     img: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=600&q=80',
   },
 ]
@@ -62,7 +62,7 @@ export default function Blog() {
                 <h2 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition">{p.title}</h2>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">{p.excerpt}</p>
                 <Link
-                  to="/contact"
+                  to={`/blog/${p.slug}`}
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-500 group/link"
                 >
                   Read More <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition" />

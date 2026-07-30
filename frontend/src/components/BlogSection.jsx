@@ -68,10 +68,10 @@ export default function BlogSection() {
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition">{p.title}</h3>
                 <Link
-                  to="/blog"
-                  className="group/link inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-500"
+                  to={`/blog/${p.slug}`}
+                  className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500"
                 >
-                  Read More <span className="group-hover/link:translate-x-1 transition">&rarr;</span>
+                  Read More &rarr;
                 </Link>
               </div>
             </article>

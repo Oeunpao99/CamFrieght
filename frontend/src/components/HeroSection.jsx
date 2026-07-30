@@ -22,7 +22,7 @@ export default function HeroSection() {
             <Shield className="h-4 w-4" />
             Trusted Logistics Partner Since 2000
           </div>
-          <h1 className="text-4xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 text-balance">
+          <h1 className="text-4xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 text-balance text-white">
             Moving Your Business
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-200">
               Across Borders
