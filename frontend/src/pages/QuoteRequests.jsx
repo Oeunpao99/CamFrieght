@@ -36,13 +36,13 @@ function StatusBadge({ status }) {
 
 function QuoteRow({ q, authHeader, onUpdated }) {
   const [open, setOpen] = useState(false)
+  const [confirming, setConfirming] = useState(false)
   const [saving, setSaving] = useState(false)
   const quoted = q.status === 'quoted'
   const route = [q.pickup_country, q.delivery_country].filter(Boolean).join(' → ') || '—'
   const cargo = [q.commodity, q.gross_weight_kg ? `${q.gross_weight_kg} kg` : null].filter(Boolean).join(' · ') || '—'
 
-  async function handleMarkQuoted(e) {
-    e.stopPropagation()
+  async function handleMarkQuoted() {
     setSaving(true)
     try {
       const res = await fetch(`/api/quotation/${q.id}`, {
@@ -53,6 +53,7 @@ function QuoteRow({ q, authHeader, onUpdated }) {
       if (!res.ok) throw new Error('Request failed')
       const updated = await res.json()
       onUpdated(updated)
+      setConfirming(false)
     } catch {
       alert('Could not update this quote. Please try again.')
     } finally {
@@ -95,7 +96,7 @@ function QuoteRow({ q, authHeader, onUpdated }) {
                       </span>
                     ) : (
                       <button
-                        onClick={handleMarkQuoted}
+                        onClick={() => setConfirming(true)}
                         disabled={saving}
                         className="inline-flex items-center gap-1.5 text-xs font-semibold bg-green-600 text-white rounded-lg px-3 py-1.5 hover:bg-green-500 transition disabled:opacity-50"
                       >
@@ -144,6 +145,40 @@ function QuoteRow({ q, authHeader, onUpdated }) {
           </div>
         </td>
       </tr>
+
+      {confirming && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-gray-900/50" onClick={() => setConfirming(false)} />
+          <div className="relative bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="bg-green-100 p-2 rounded-lg">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+              </div>
+              <h2 className="text-base font-semibold text-gray-900">Confirm quote #{q.id}</h2>
+            </div>
+            <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+              Marking this quote as <span className="font-semibold text-gray-900">quoted</span> means the sales team has
+              already processed it. Are you sure you want to proceed?
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setConfirming(false)}
+                disabled={saving}
+                className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleMarkQuoted}
+                disabled={saving}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-green-600 text-white hover:bg-green-500 transition disabled:opacity-50"
+              >
+                <CheckCircle2 className="h-4 w-4" /> {saving ? 'Marking...' : 'Mark as quoted'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
