@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, Truck, Maximize2, Minimize2 } from 'lucide-react'
+import { MessageCircle, X, Send, Truck, Maximize2, Minimize2, FileText } from 'lucide-react'
+import QuotationForm from './QuotationForm'
 
 const faqs = [
   'What can you help me with?',
@@ -55,14 +56,14 @@ function formatMessage(text) {
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hello! How can I help you with your logistics needs today?' },
+    { id: 0, role: 'assistant', content: 'Hello! How can I help you with your logistics needs today?' },
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showFaq, setShowFaq] = useState(true)
   const [animated, setAnimated] = useState(true)
   const [wide, setWide] = useState(false)
   const bottomRef = useRef(null)
+  const nextId = useRef(1)
 
   function handleToggle() {
     setOpen((v) => !v)
@@ -77,8 +78,7 @@ export default function ChatWidget() {
 
   async function send(text) {
     if (!text.trim() || loading) return
-    setShowFaq(false)
-    const userMsg = { role: 'user', content: text }
+    const userMsg = { id: nextId.current++, role: 'user', content: text }
     setMessages((prev) => [...prev, userMsg])
     setInput('')
     setLoading(true)
@@ -90,17 +90,13 @@ export default function ChatWidget() {
       })
       const data = await res.json()
       const full = data.reply
-      const msgIndex = messages.length + 1
-      setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
+      const replyId = nextId.current++
+      setMessages((prev) => [...prev, { id: replyId, role: 'assistant', content: '' }])
       let i = 0
       const speed = 15
       function type() {
         if (i < full.length) {
-          setMessages((prev) => {
-            const next = [...prev]
-            next[msgIndex] = { ...next[msgIndex], content: full.slice(0, i + 1) }
-            return next
-          })
+          setMessages((prev) => prev.map((m) => (m.id === replyId ? { ...m, content: full.slice(0, i + 1) } : m)))
           i++
           setTimeout(type, speed)
         }
@@ -109,7 +105,7 @@ export default function ChatWidget() {
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: 'Sorry, something went wrong. Please try again or call +855 88 983 9999.' },
+        { id: nextId.current++, role: 'assistant', content: 'Sorry, something went wrong. Please try again or call +855 88 983 9999.' },
       ])
     } finally {
       setLoading(false)
@@ -123,6 +119,22 @@ export default function ChatWidget() {
 
   function handleFaq(q) {
     send(q)
+  }
+
+  function handleShowForm() {
+    setMessages((prev) => [...prev, { id: nextId.current++, role: 'form' }])
+  }
+
+  function handleFormSubmitted(formId, quotationId) {
+    setMessages((prev) => prev.map((m) => (
+      m.id === formId
+        ? {
+            id: formId,
+            role: 'assistant',
+            content: `Thanks! Your quotation request has been submitted (**Quotation ID: ${quotationId}**). Our team will follow up shortly — for urgent quotation follow-ups you can also reach us directly at **+855 93 688 688** or **ceo@camfreight.com**.`,
+          }
+        : m
+    )))
   }
 
   return (
@@ -157,21 +169,30 @@ export default function ChatWidget() {
           <div className={`flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50/50 ${
             wide ? 'min-h-[60vh] max-h-[65vh]' : 'min-h-[400px] max-h-[460px]'
           }`}>
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                    m.role === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-md'
-                      : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-md'
-                  }`}
-                >
-                  <span dangerouslySetInnerHTML={{ __html: formatMessage(m.content) }} />
+            {messages.map((m) => (
+              m.role === 'form' ? (
+                <div key={m.id} className="w-full">
+                  <QuotationForm
+                    sessionId={sessionId.current}
+                    onSubmitted={(quotationId) => handleFormSubmitted(m.id, quotationId)}
+                  />
                 </div>
-              </div>
+              ) : (
+                <div
+                  key={m.id}
+                  className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                      m.role === 'user'
+                        ? 'bg-blue-600 text-white rounded-br-md'
+                        : 'bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-md'
+                    }`}
+                  >
+                    <span dangerouslySetInnerHTML={{ __html: formatMessage(m.content) }} />
+                  </div>
+                </div>
+              )
             ))}
             {loading && (
               <div className="flex justify-start">
@@ -185,23 +206,28 @@ export default function ChatWidget() {
             <div ref={bottomRef} />
           </div>
 
-          {showFaq && (
-            <div className="px-4 pb-2 pt-1 bg-gray-50/50 border-t">
-              <p className="text-xs text-gray-400 mb-2">Quick questions:</p>
-              <div className="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto pr-1">
-                {faqs.map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => handleFaq(q)}
-                    disabled={loading}
-                    className="text-xs bg-white border border-gray-200 text-gray-600 rounded-full px-3 py-1.5 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-50"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
+          <div className="px-4 pb-2 pt-1 bg-gray-50/50 border-t">
+            <button
+              onClick={handleShowForm}
+              disabled={loading}
+              className="w-full mb-2 inline-flex items-center justify-center gap-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg px-3 py-2 hover:bg-blue-500 transition disabled:opacity-50"
+            >
+              <FileText className="h-3.5 w-3.5" /> Request a Quote (fill out form)
+            </button>
+            <p className="text-xs text-gray-400 mb-2">Quick questions:</p>
+            <div className="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto pr-1">
+              {faqs.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => handleFaq(q)}
+                  disabled={loading}
+                  className="text-xs bg-white border border-gray-200 text-gray-600 rounded-full px-3 py-1.5 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-50"
+                >
+                  {q}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
 
           <form onSubmit={handleSubmit} className="border-t p-4 bg-white rounded-b-2xl">
             <div className="flex gap-2 items-center">

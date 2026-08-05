@@ -32,7 +32,7 @@ def chat(request: ChatRequest, db: Session = Depends(get_db)):
         .all()
     )
 
-    reply = get_ai_response(request.message, history, db=db)
+    reply = get_ai_response(request.message, history, db=db, session_id=request.session_id)
 
     db.add(ChatMessage(session_id=request.session_id, role="assistant", content=reply))
     db.commit()
