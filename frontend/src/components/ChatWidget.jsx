@@ -7,11 +7,6 @@ const faqs = [
   'What services do you offer?',
   'How do I get a shipping quote?',
   'What is your contact info?',
-  'Do you handle customs clearance?',
-  'What cargo types do you ship?',
-  'Do you handle cross-border freight?',
-  'Can you manage oversized or project cargo?',
-  'What are your working hours?',
 ]
 
 function escapeHtml(str) {
@@ -89,19 +84,7 @@ export default function ChatWidget() {
         body: JSON.stringify({ session_id: sessionId.current, message: text }),
       })
       const data = await res.json()
-      const full = data.reply
-      const replyId = nextId.current++
-      setMessages((prev) => [...prev, { id: replyId, role: 'assistant', content: '' }])
-      let i = 0
-      const speed = 15
-      function type() {
-        if (i < full.length) {
-          setMessages((prev) => prev.map((m) => (m.id === replyId ? { ...m, content: full.slice(0, i + 1) } : m)))
-          i++
-          setTimeout(type, speed)
-        }
-      }
-      type()
+      setMessages((prev) => [...prev, { id: nextId.current++, role: 'assistant', content: data.reply }])
     } catch {
       setMessages((prev) => [
         ...prev,
