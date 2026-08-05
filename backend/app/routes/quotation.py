@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.database import get_db
 from app.models.quotation import QuotationRequest
-from app.schemas.quotation import QuotationCreate
+from app.schemas.quotation import QuotationCreate, QuotationStatusUpdate
 from app.services.quotation import save_quotation
 
 router = APIRouter(prefix="/api/quotation", tags=["quotation"])
@@ -41,3 +41,19 @@ def list_quotations(db: Session = Depends(get_db), admin: str = Depends(verify_a
 def create_quotation(payload: QuotationCreate, db: Session = Depends(get_db)):
     quotation = save_quotation(db, payload.model_dump(exclude={"session_id"}), payload.session_id)
     return {"id": quotation.id, "status": "success"}
+
+
+@router.patch("/{quotation_id}")
+def update_quotation_status(
+    quotation_id: int,
+    payload: QuotationStatusUpdate,
+    db: Session = Depends(get_db),
+    admin: str = Depends(verify_admin),
+):
+    quotation = db.get(QuotationRequest, quotation_id)
+    if quotation is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation not found")
+    quotation.status = payload.status
+    db.commit()
+    db.refresh(quotation)
+    return quotation

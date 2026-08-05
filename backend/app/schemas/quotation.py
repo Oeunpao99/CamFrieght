@@ -35,3 +35,7 @@ class QuotationCreate(BaseModel):
 
     special_requirements: list[str] = []
     additional_info: str | None = None
+
+
+class QuotationStatusUpdate(BaseModel):
+    status: str

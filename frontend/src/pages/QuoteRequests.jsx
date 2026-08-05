@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Lock, LogOut, RefreshCw, Package, MapPin, User, Truck, ChevronDown } from 'lucide-react'
+import { Lock, LogOut, RefreshCw, Package, MapPin, User, Truck, ChevronDown, CheckCircle2 } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import ChatWidget from '../components/ChatWidget'
@@ -34,38 +34,75 @@ function StatusBadge({ status }) {
   )
 }
 
-function QuoteRow({ q }) {
+function QuoteRow({ q, authHeader, onUpdated }) {
   const [open, setOpen] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const quoted = q.status === 'quoted'
   const route = [q.pickup_country, q.delivery_country].filter(Boolean).join(' → ') || '—'
   const cargo = [q.commodity, q.gross_weight_kg ? `${q.gross_weight_kg} kg` : null].filter(Boolean).join(' · ') || '—'
+
+  async function handleMarkQuoted(e) {
+    e.stopPropagation()
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/quotation/${q.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: authHeader },
+        body: JSON.stringify({ status: 'quoted' }),
+      })
+      if (!res.ok) throw new Error('Request failed')
+      const updated = await res.json()
+      onUpdated(updated)
+    } catch {
+      alert('Could not update this quote. Please try again.')
+    } finally {
+      setSaving(false)
+    }
+  }
 
   return (
     <>
       <tr
         onClick={() => setOpen(!open)}
-        className="hover:bg-gray-50 cursor-pointer transition border-b border-gray-200"
+        className={`cursor-pointer transition border-b border-gray-200 ${quoted ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
       >
-        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#{q.id}</td>
+        <td className={`px-4 py-3 whitespace-nowrap text-sm font-medium ${quoted ? 'text-gray-400' : 'text-gray-900'}`}>#{q.id}</td>
         <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500">{formatDate(q.created_at)}</td>
         <td className="px-4 py-3">
-          <div className="text-sm font-semibold text-gray-900 truncate max-w-[180px]">{q.contact_person || 'Unknown contact'}</div>
+          <div className={`text-sm font-semibold truncate max-w-[180px] ${quoted ? 'text-gray-400' : 'text-gray-900'}`}>{q.contact_person || 'Unknown contact'}</div>
           {q.company_name && <div className="text-xs font-medium text-gray-500 truncate max-w-[180px]">{q.company_name}</div>}
         </td>
-        <td className="px-4 py-3 text-sm font-medium text-gray-700">{q.shipment_type || '—'}</td>
-        <td className="px-4 py-3 text-sm font-medium text-gray-700">{route}</td>
-        <td className="px-4 py-3 text-sm font-medium text-gray-700">{cargo}</td>
+        <td className={`px-4 py-3 text-sm font-medium ${quoted ? 'text-gray-400' : 'text-gray-700'}`}>{q.shipment_type || '—'}</td>
+        <td className={`px-4 py-3 text-sm font-medium ${quoted ? 'text-gray-400' : 'text-gray-700'}`}>{route}</td>
+        <td className={`px-4 py-3 text-sm font-medium ${quoted ? 'text-gray-400' : 'text-gray-700'}`}>{cargo}</td>
         <td className="px-4 py-3"><StatusBadge status={q.status} /></td>
         <td className="px-4 py-3 text-right">
           <ChevronDown className={`h-4 w-4 text-gray-400 inline transition-transform duration-300 ${open ? 'rotate-0' : '-rotate-90'}`} />
         </td>
       </tr>
 
-      <tr className={`bg-gray-50/70 transition-colors duration-300 ${open ? 'bg-gray-50/70' : 'bg-transparent'}`}>
+      <tr className={`transition-colors duration-300 ${open ? 'bg-gray-50/70' : 'bg-transparent'}`}>
         <td colSpan={8} className="p-0">
           <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
             <div className="overflow-hidden">
               <div className={`px-4 py-4 transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                  <div className={`flex items-center justify-between gap-3 px-4 py-3 border-b border-gray-200 ${quoted ? 'bg-gray-100' : 'bg-gray-50'}`}>
+                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Quotation #{q.id}</span>
+                    {quoted ? (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-400">
+                        <CheckCircle2 className="h-3.5 w-3.5" /> Marked as quoted
+                      </span>
+                    ) : (
+                      <button
+                        onClick={handleMarkQuoted}
+                        disabled={saving}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold bg-green-600 text-white rounded-lg px-3 py-1.5 hover:bg-green-500 transition disabled:opacity-50"
+                      >
+                        <CheckCircle2 className="h-3.5 w-3.5" /> {saving ? 'Marking...' : 'Mark as quoted'}
+                      </button>
+                    )}
+                  </div>
                   <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                       <User className="h-3.5 w-3.5" /> Customer
@@ -160,6 +197,10 @@ export default function QuoteRequests() {
     setPassword('')
     setAuthHeader('')
     setQuotes([])
+  }
+
+  function handleQuoteUpdated(updated) {
+    setQuotes((prev) => prev.map((q) => (q.id === updated.id ? updated : q)))
   }
 
   if (!authed) {
@@ -261,7 +302,7 @@ export default function QuoteRequests() {
                 </thead>
                 <tbody>
                   {quotes.map((q) => (
-                    <QuoteRow key={q.id} q={q} />
+                    <QuoteRow key={q.id} q={q} authHeader={authHeader} onUpdated={handleQuoteUpdated} />
                   ))}
                 </tbody>
               </table>
