@@ -10,16 +10,23 @@ import QuoteRequests from './pages/QuoteRequests'
 
 export default function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogDetail />} />
-        <Route path="/quote-request" element={<QuoteRequests />} />
-      </Routes>
-    </Layout>
+    <Routes>
+      <Route path="/quote-request" element={<QuoteRequests />} />
+      <Route
+        path="*"
+        element={
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogDetail />} />
+            </Routes>
+          </Layout>
+        }
+      />
+    </Routes>
   )
 }

@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import { Lock, LogOut, RefreshCw, Package, MapPin, User } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Lock, LogOut, RefreshCw, Package, MapPin, User, Truck, ChevronDown } from 'lucide-react'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import ChatWidget from '../components/ChatWidget'
 
 function formatDate(iso) {
   if (!iso) return '—'
@@ -18,65 +21,93 @@ function Field({ label, value }) {
   )
 }
 
-function QuoteCard({ q }) {
-  const [open, setOpen] = useState(false)
+function StatusBadge({ status }) {
+  const color = status === 'new'
+    ? 'bg-blue-50 text-blue-600 border-blue-200'
+    : status === 'quoted'
+      ? 'bg-green-50 text-green-600 border-green-200'
+      : 'bg-gray-50 text-gray-500 border-gray-200'
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="w-full flex flex-wrap items-center gap-4 justify-between p-4 text-left hover:bg-gray-50 transition">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="bg-blue-50 text-blue-600 rounded-lg p-2 shrink-0">
-            <Package className="h-4 w-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="font-semibold text-gray-900 truncate">
-              #{q.id} — {q.contact_person || 'Unknown contact'} {q.company_name ? `(${q.company_name})` : ''}
+    <span className={`inline-block text-xs font-medium rounded-full px-2.5 py-0.5 border ${color}`}>
+      {status || 'new'}
+    </span>
+  )
+}
+
+function QuoteRow({ q }) {
+  const [open, setOpen] = useState(false)
+  const route = [q.pickup_country, q.delivery_country].filter(Boolean).join(' → ') || '—'
+  const cargo = [q.commodity, q.gross_weight_kg ? `${q.gross_weight_kg} kg` : null].filter(Boolean).join(' · ') || '—'
+
+  return (
+    <>
+      <tr
+        onClick={() => setOpen(!open)}
+        className="hover:bg-gray-50 cursor-pointer transition border-b border-gray-200"
+      >
+        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">#{q.id}</td>
+        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500">{formatDate(q.created_at)}</td>
+        <td className="px-4 py-3">
+          <div className="text-sm font-semibold text-gray-900 truncate max-w-[180px]">{q.contact_person || 'Unknown contact'}</div>
+          {q.company_name && <div className="text-xs font-medium text-gray-500 truncate max-w-[180px]">{q.company_name}</div>}
+        </td>
+        <td className="px-4 py-3 text-sm font-medium text-gray-700">{q.shipment_type || '—'}</td>
+        <td className="px-4 py-3 text-sm font-medium text-gray-700">{route}</td>
+        <td className="px-4 py-3 text-sm font-medium text-gray-700">{cargo}</td>
+        <td className="px-4 py-3"><StatusBadge status={q.status} /></td>
+        <td className="px-4 py-3 text-right">
+          <ChevronDown className={`h-4 w-4 text-gray-400 inline transition-transform duration-300 ${open ? 'rotate-0' : '-rotate-90'}`} />
+        </td>
+      </tr>
+
+      <tr className={`bg-gray-50/70 transition-colors duration-300 ${open ? 'bg-gray-50/70' : 'bg-transparent'}`}>
+        <td colSpan={8} className="p-0">
+          <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+            <div className="overflow-hidden">
+              <div className={`px-4 py-4 transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}>
+                <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                      <User className="h-3.5 w-3.5" /> Customer
+                    </div>
+                    <Field label="Company" value={q.company_name} />
+                    <Field label="Contact person" value={q.contact_person} />
+                    <Field label="Mobile / WhatsApp" value={q.mobile_whatsapp} />
+                    <Field label="Email" value={q.email} />
+
+                    <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mt-2">
+                      <MapPin className="h-3.5 w-3.5" /> Route
+                    </div>
+                    <Field label="Shipment type" value={q.shipment_type} />
+                    <Field label="Ready date" value={q.ready_date} />
+                    <Field label="Pickup" value={[q.pickup_address, q.pickup_city, q.pickup_country].filter(Boolean).join(', ')} />
+                    <Field label="Delivery" value={[q.delivery_address, q.delivery_city, q.delivery_country].filter(Boolean).join(', ')} />
+
+                    <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mt-2">
+                      <Package className="h-3.5 w-3.5" /> Cargo
+                    </div>
+                    <Field label="Commodity" value={q.commodity} />
+                    <Field label="Packages" value={q.num_packages} />
+                    <Field label="Gross weight (kg)" value={q.gross_weight_kg} />
+                    <Field label="Dimensions" value={q.dimensions} />
+                    <Field label="Volume (CBM)" value={q.total_volume_cbm} />
+                    <Field label="HS code" value={q.hs_code} />
+                    <Field label="Cargo value" value={q.cargo_value} />
+                    <Field label="Incoterm" value={q.incoterm} />
+                    <Field label="Export customs clearance" value={q.export_customs_clearance} />
+                    <Field label="Import customs clearance" value={q.import_customs_clearance} />
+                    <Field label="Special requirements" value={q.special_requirements} />
+                    <div className="lg:col-span-3">
+                      <Field label="Additional info" value={q.additional_info} />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="text-xs text-gray-500 truncate">
-              {q.shipment_type || 'Shipment type not set'} · {q.pickup_country || '?'} → {q.delivery_country || '?'} · {formatDate(q.created_at)}
-            </div>
           </div>
-        </div>
-        <span className="text-xs font-medium text-blue-600 shrink-0">{open ? 'Hide details' : 'View details'}</span>
-      </button>
-
-      {open && (
-        <div className="border-t border-gray-100 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-            <User className="h-3.5 w-3.5" /> Customer
-          </div>
-          <Field label="Company" value={q.company_name} />
-          <Field label="Contact person" value={q.contact_person} />
-          <Field label="Mobile / WhatsApp" value={q.mobile_whatsapp} />
-          <Field label="Email" value={q.email} />
-
-          <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mt-2">
-            <MapPin className="h-3.5 w-3.5" /> Route
-          </div>
-          <Field label="Shipment type" value={q.shipment_type} />
-          <Field label="Ready date" value={q.ready_date} />
-          <Field label="Pickup" value={[q.pickup_address, q.pickup_city, q.pickup_country].filter(Boolean).join(', ')} />
-          <Field label="Delivery" value={[q.delivery_address, q.delivery_city, q.delivery_country].filter(Boolean).join(', ')} />
-
-          <div className="lg:col-span-3 flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mt-2">
-            <Package className="h-3.5 w-3.5" /> Cargo
-          </div>
-          <Field label="Commodity" value={q.commodity} />
-          <Field label="Packages" value={q.num_packages} />
-          <Field label="Gross weight (kg)" value={q.gross_weight_kg} />
-          <Field label="Dimensions" value={q.dimensions} />
-          <Field label="Volume (CBM)" value={q.total_volume_cbm} />
-          <Field label="HS code" value={q.hs_code} />
-          <Field label="Cargo value" value={q.cargo_value} />
-          <Field label="Incoterm" value={q.incoterm} />
-          <Field label="Export customs clearance" value={q.export_customs_clearance} />
-          <Field label="Import customs clearance" value={q.import_customs_clearance} />
-          <Field label="Special requirements" value={q.special_requirements} />
-          <div className="lg:col-span-3">
-            <Field label="Additional info" value={q.additional_info} />
-          </div>
-        </div>
-      )}
-    </div>
+        </td>
+      </tr>
+    </>
   )
 }
 
@@ -89,13 +120,13 @@ export default function QuoteRequests() {
   const [loading, setLoading] = useState(false)
   const [quotes, setQuotes] = useState([])
 
-  async function fetchQuotes(header) {
-    setLoading(true)
-    setError('')
+  async function fetchQuotes(header, { silent = false } = {}) {
+    if (!silent) setLoading(true)
+    if (!silent) setError('')
     try {
       const res = await fetch('/api/quotation', { headers: { Authorization: header } })
       if (res.status === 401) {
-        setError('Invalid username or password.')
+        if (!silent) setError('Invalid username or password.')
         setAuthed(false)
         return
       }
@@ -104,11 +135,17 @@ export default function QuoteRequests() {
       setQuotes(data)
       setAuthed(true)
     } catch {
-      setError('Could not load quote requests. Please try again.')
+      if (!silent) setError('Could not load quote requests. Please try again.')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (!authed || !authHeader) return
+    const poll = setInterval(() => fetchQuotes(authHeader, { silent: true }), 8000)
+    return () => clearInterval(poll)
+  }, [authed, authHeader])
 
   function handleLogin(e) {
     e.preventDefault()
@@ -127,82 +164,113 @@ export default function QuoteRequests() {
 
   if (!authed) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center px-4">
-        <form onSubmit={handleLogin} className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Lock className="h-4 w-4 text-white" />
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 py-12">
+          <form onSubmit={handleLogin} className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="bg-blue-600 p-2 rounded-lg">
+                <Lock className="h-4 w-4 text-white" />
+              </div>
+              <h1 className="text-lg font-semibold text-gray-900">Admin Login</h1>
             </div>
-            <h1 className="text-lg font-semibold text-gray-900">Quote Requests — Admin Login</h1>
-          </div>
 
-          <label className="block text-sm text-gray-600 mb-1">Username</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            autoComplete="username"
-          />
+            <label className="block text-sm text-gray-600 mb-1">Username</label>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              autoComplete="username"
+            />
 
-          <label className="block text-sm text-gray-600 mb-1">Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            autoComplete="current-password"
-          />
+            <label className="block text-sm text-gray-600 mb-1">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              autoComplete="current-password"
+            />
 
-          {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
+            {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-500 transition disabled:opacity-50"
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-500 transition disabled:opacity-50"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </main>
+        <Footer />
+        <ChatWidget />
       </div>
     )
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Quote Requests</h1>
-          <p className="text-sm text-gray-500 mt-1">{quotes.length} request{quotes.length === 1 ? '' : 's'} submitted via the chat assistant</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => fetchQuotes(authHeader)}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl px-3 py-2 hover:bg-gray-50 transition"
-          >
-            <RefreshCw className="h-4 w-4" /> Refresh
-          </button>
-          <button
-            onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl px-3 py-2 hover:bg-gray-50 transition"
-          >
-            <LogOut className="h-4 w-4" /> Log out
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Quote Requests</h1>
+              <p className="text-sm text-gray-500 mt-1">
+                {quotes.length} request{quotes.length === 1 ? '' : 's'} submitted via the chat assistant and quotation form
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl px-3 py-2 hover:bg-gray-50 transition"
+              >
+                <LogOut className="h-4 w-4" /> Log out
+              </button>
+              <button
+                onClick={() => fetchQuotes(authHeader)}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl px-3 py-2 hover:bg-gray-50 transition disabled:opacity-50"
+              >
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /> Refresh
+              </button>
+            </div>
+          </div>
 
-      {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
+          {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
 
-      {quotes.length === 0 ? (
-        <div className="text-center text-gray-500 py-16 border border-dashed border-gray-200 rounded-2xl">
-          No quote requests yet.
+          {quotes.length === 0 ? (
+            <div className="text-center text-gray-500 py-16 border border-dashed border-gray-200 rounded-2xl bg-white">
+              No quote requests yet.
+            </div>
+          ) : (
+            <div className="bg-white border border-gray-200 rounded-2xl overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Submitted</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Contact</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Shipment Type</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Route</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Cargo</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                    <th className="px-4 py-3" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {quotes.map((q) => (
+                    <QuoteRow key={q.id} q={q} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="space-y-3">
-          {quotes.map((q) => (
-            <QuoteCard key={q.id} q={q} />
-          ))}
-        </div>
-      )}
+      </main>
+      <Footer />
+      <ChatWidget />
     </div>
   )
 }
